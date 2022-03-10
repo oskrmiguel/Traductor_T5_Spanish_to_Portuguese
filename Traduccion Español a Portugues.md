@@ -109,7 +109,7 @@ utilizamos la parte español/portugués del conjunto de datos tatoeba.
 
 
 
-``` {.python}
+```python
 from datasets import load_dataset, load_metric,DatasetDict
 
 raw_datasets = load_dataset("tatoeba", "es-pt")
@@ -123,7 +123,7 @@ que contiene una clave para el conjunto de entrenamiento
 
 
 
-``` {.python}
+```python
 raw_datasets
 ```
 
@@ -143,7 +143,7 @@ división y luego dar un índice:
 
 
 
-``` {.python}
+```python
 raw_datasets["train"][0]
 ```
 
@@ -160,7 +160,7 @@ y pruebas
 
 
 
-``` {.python}
+```python
 train_devtest = raw_datasets['train'].train_test_split(shuffle = True, seed = 200, test_size=0.1)
 posts_dev_test = train_devtest['test'].train_test_split(shuffle = True, seed = 200, test_size=0.50)
 raw_datasets = DatasetDict({
@@ -171,7 +171,7 @@ raw_datasets = DatasetDict({
 
 
 
-``` {.python}
+```python
 raw_datasets
 ```
 
@@ -218,18 +218,16 @@ nuevo la próxima vez que ejecutemos la célula.
 
 
 
-``` {.python}
+```python
 from transformers import AutoTokenizer
 model_checkpoint='t5-small'
 tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
-
+```
 Si está utilizando uno de los cinco puntos de control T5 que requieren
 un prefijo especial para poner antes de las entradas, debe adaptar la
 siguiente celda
 
-
-
-``` {.python}
+```python
 if model_checkpoint in ["t5-small", "t5-base", "t5-larg", "t5-3b", "t5-11b"]:
     prefix = "translate Spanish to Portuguese: "
 else:
@@ -246,7 +244,7 @@ longitud más larga del lote y no todo el conjunto de datos.
 
 
 
-``` {.python}
+```python
 max_input_length = 128
 max_target_length = 128
 source_lang = "es"
@@ -272,7 +270,7 @@ ejemplos, el tokenizador devolverá una lista de listas para cada clave:
 
 
 
-``` {.python}
+```python
 preprocess_function(raw_datasets['train'][:2])
 ```
 
@@ -291,7 +289,7 @@ preprocesados en un solo comando.
 
 
 
-``` {.python}
+```python
 tokenized_datasets = raw_datasets.map(preprocess_function, batched=True)
 ```
 
@@ -325,7 +323,7 @@ caché el modelo por nosotros.
 
 
 
-``` {.python}
+```python
 from transformers import AutoModelForSeq2SeqLM, DataCollatorForSeq2Seq, Seq2SeqTrainingArguments, Seq2SeqTrainer
 
 model = AutoModelForSeq2SeqLM.from_pretrained(model_checkpoint)
@@ -343,7 +341,7 @@ son opcionales:
 
 
 
-``` {.python}
+```python
 batch_size = 32
 model_name = model_checkpoint.split("/")[-1]
 args = Seq2SeqTrainingArguments(
@@ -390,7 +388,7 @@ sino también las etiquetas:
 
 
 
-``` {.python}
+```python
 data_collator = DataCollatorForSeq2Seq(tokenizer, model=model)
 ```
 
@@ -404,7 +402,7 @@ las predicciones en los textos:
 
 
 
-``` {.python}
+```python
 import numpy as np
 
 def postprocess_text(preds, labels):
@@ -442,7 +440,7 @@ conjuntos de datos al `Seq2SeqTrainer`:
 
 
 
-``` {.python}
+```python
 trainer = Seq2SeqTrainer(
     model,
     args,
@@ -462,7 +460,7 @@ Ahora podemos afinar nuestro modelo simplemente llamando al método
 
 
 
-``` {.python}
+```python
 trainer.train()
 ```
 
@@ -471,7 +469,7 @@ que ejecutar esta instrucción:
 
 
 
-``` {.python}
+```python
 trainer.push_to_hub()
 ```
 
@@ -489,7 +487,7 @@ localmente utiliza la ruta donde guardaste el modelo recién entrenado.
 
 
 
-``` {.python}
+```python
 from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 model = AutoModelForSeq2SeqLM.from_pretrained("oskrmiguel/t5-small-finetuned-es-to-pt")
 tokenizer = AutoTokenizer.from_pretrained("oskrmiguel/t5-small-finetuned-es-to-pt")
@@ -504,7 +502,7 @@ Como ejemplo traduciremos las 10 primeras frases del test.
 
 
 
-``` {.python}
+```python
 for indice in range(10):
   inputs = tokenizer(
       "{} {}".format("translate Spanish to Portuguese: ",raw_datasets['test'][indice]['translation']['es']),
