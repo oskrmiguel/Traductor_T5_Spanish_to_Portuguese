@@ -1,3 +1,18 @@
+---
+title: Traducción de Texto
+description: Cómo afinar un modelo de T5 en español para traduccir frases del español al portugués.
+cover: https://somosnlp.github.io/assets/images/undraw_education_edited.svg
+author: Oscar Cumbicus
+bio: Professor @UNL Researcher @IxaGroup
+twitter: https://twitter.com/OscarCumbicus
+linkedin: https://www.linkedin.com/in/oscar-cumbicus-47095443/
+github: https://github.com/oskrmiguel
+---
+
+<a href="https://colab.research.google.com/github/oskrmiguel/Traductor_T5_Spanish_to_Portuguese/blob/main/T5_Espa%C3%B1ol_a_Portugues.ipynb
+" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
+
+## Configuración
 Este cuaderno es una adaptación de [How to fine-tune a model on
 translation](https://colab.research.google.com/github/huggingface/notebooks/blob/master/examples/translation.ipynb)
 
